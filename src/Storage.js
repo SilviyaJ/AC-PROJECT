@@ -28,6 +28,30 @@ const loading=()=>{
     records=JSON.parse(temp)
 }
 
+export const executeDeleting=(unique)=>{
+    loading()
+    records=records.filter((ele,ind)=>{
+     return ele.brand!==unique
+    })
+    affect()
+    alert(unique+"has terminated")
+}
+
+export const executeUpdating=(key)=>{
+    loading()
+    for(var ind=0;ind<records.length;ind++)
+    {
+        if(records[ind].brand===key.brand)
+        {
+            records[ind]=key
+            affect()
+            return;
+        }
+       
+    }
+    alert("invalid name")
+}
+
 export const executeCreating=(obj)=>{
     loading()
     records.push(obj)

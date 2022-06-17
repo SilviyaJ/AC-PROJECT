@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { Create } from "./Create"
 import { Read } from "./Read"
-import { executeListing } from "./Storage"
+import { executeDeleting, executeListing } from "./Storage"
+import { Update } from "./Update"
 
 export const List=()=>{
 
@@ -9,6 +10,7 @@ export const List=()=>{
 
     const[cview,setCview]=useState(false)
     const[rview,setRview]=useState(false)
+    const[uview,setUview]=useState(false)
 
     const[specific,setSpecific]=useState(0)
 
@@ -47,11 +49,23 @@ export const List=()=>{
         </button>
         </>
         :
+        (uview)?
+        <>
+        <Update give={specific}/>
+        <button className="btn btn-outline-primary" onClick={()=>{
+            setUview(false)
+            window.location.assign("/")
+        }}>
+              <i class="bi bi-back"></i>
+        </button>
+        
+        </>
+        :
         <>
         <button className="btn btn-outline-success" onClick={()=>{
             setCview(true)
         }}>
-            <i class="bi bi-bag-plus-fill"></i>
+            <i class="bi bi-bag-plus-fill">create</i>
 
         </button>
         <div className="row justify-content-center"> 
@@ -72,11 +86,25 @@ export const List=()=>{
         <td>{ele.weight}</td>
         <td>{ele.price}</td>
         <td>
-            <button className="btn btn-outline-info col-4" onClick={()=>{
+            <button className="btn btn-outline-info col-2 me-1" onClick={()=>{
                 setRview(true)
                 setSpecific(ele.brand)
             }}>
                 <i class="bi bi-book-half"></i>
+
+            </button>
+            <button className="btn btn-outline-warning col-2 me-1" onClick={()=>{
+                setUview(true)
+                setSpecific(ele.brand)
+            }}>
+                <i class="bi bi-pencil-square"></i>
+
+            </button>
+            <button className="btn btn-outline-danger col-2 " onClick={()=>{
+                executeDeleting(ele.brand)
+                window.location.assign("/")
+            }}>
+                 <i class="bi bi-trash-fill"></i>
 
             </button>
         </td>
